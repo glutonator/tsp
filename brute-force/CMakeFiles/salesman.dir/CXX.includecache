@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/asica/repo/studia/porr/tsp/brute-force/graph.cpp
+iostream
+-
+algorithm
+-
+numeric
+-
+graph.h
+/home/asica/repo/studia/porr/tsp/brute-force/graph.h
+
+/home/asica/repo/studia/porr/tsp/brute-force/graph.h
+vector
+-
+list
+-
+
