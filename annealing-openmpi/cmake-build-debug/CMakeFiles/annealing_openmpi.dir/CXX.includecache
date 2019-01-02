@@ -6,19 +6,3 @@
 
 #IncludeRegexTransform: 
 
-/home/filip/Documents/projects/PORR_new/tsp/annealing-openmpi/RandomVector.cpp
-chrono
--
-algorithm
--
-random
--
-iostream
--
-omp.h
--
-RandomVector.h
-/home/filip/Documents/projects/PORR_new/tsp/annealing-openmpi/RandomVector.h
-
-/home/filip/Documents/projects/PORR_new/tsp/annealing-openmpi/RandomVector.h
-

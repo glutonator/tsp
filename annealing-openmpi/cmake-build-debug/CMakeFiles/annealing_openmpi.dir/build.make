@@ -124,6 +124,8 @@ annealing_openmpi: CMakeFiles/annealing_openmpi.dir/Algorithm.cpp.o
 annealing_openmpi: CMakeFiles/annealing_openmpi.dir/Graph.cpp.o
 annealing_openmpi: CMakeFiles/annealing_openmpi.dir/RandomVector.cpp.o
 annealing_openmpi: CMakeFiles/annealing_openmpi.dir/build.make
+annealing_openmpi: /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so
+annealing_openmpi: /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so
 annealing_openmpi: CMakeFiles/annealing_openmpi.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/filip/Documents/projects/PORR_new/tsp/annealing-openmpi/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable annealing_openmpi"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/annealing_openmpi.dir/link.txt --verbose=$(VERBOSE)
