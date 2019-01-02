@@ -1,3 +1,0 @@
-/home/filip/Documents/projects/PORR_new/tsp/annealing-openmpi/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/filip/Documents/projects/PORR_new/tsp/annealing-openmpi/cmake-build-debug/CMakeFiles/annealing_openmpi.dir
-/home/filip/Documents/projects/PORR_new/tsp/annealing-openmpi/cmake-build-debug/CMakeFiles/edit_cache.dir
