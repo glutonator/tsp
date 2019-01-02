@@ -1,0 +1,4 @@
+/home/filip/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/183.4886.39/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/filip/Documents/projects/PORR_new/tsp/annealing-openmpi
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/filip/Documents/projects/PORR_new/tsp/annealing-openmpi/cmake-build-debug
