@@ -21,7 +21,10 @@ public:
 
     vector<int> generateSwap(vector<int> singlePerm, int nr);
 
-};
+
+
+
+    };
 
 
 #endif //SALESMAN_SEQ_RANDOMVECTOR_H

@@ -20,16 +20,37 @@ static int numprocs;
 
 
 int main(int argc, char **argv) {
-    int my_rank;
+
+
+
+//    int my_rank;
+    int mynum, nprocs;
+
 // MPI initializations
     MPI_Status status;
-    MPI_Init (&argc, &argv);
-    MPI_Comm_size (MPI_COMM_WORLD, &numprocs);
-    MPI_Comm_rank (MPI_COMM_WORLD, &my_rank);
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &mynum);
+    MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
+    std::cout << "mynum: " + std::to_string(mynum) << std::endl;
+    std::cout << "nprocs: " + std::to_string(nprocs) << std::endl;
+
     double time_start = MPI_Wtime();
-    std::cout << "Hello World, my rank is " << my_rank <<" "<< MPI_Wtime() - time_start << std::endl;
+
+    int numberOfNodes = atoi(argv[1]);
+    double temperature = atof(argv[2]);
+    int loopSteps = atoi(argv[3]);
+    double alpha = atof(argv[4]);
+    int parallel = atoi(argv[5]);
+
+    Algorithm algorithm = Algorithm(temperature, loopSteps, numberOfNodes, alpha, parallel);
+    algorithm.annealingMethod(mynum,nprocs);
+
+//    std::cout << "Hello World, my rank is " << mynum << " " << MPI_Wtime() - time_start << std::endl;
+
+//    RandomVector *randomVector = new RandomVector();
+//    randomVector->func(mynum, nprocs);
 // End MPI
-    MPI_Finalize ();
+    MPI_Finalize();
     return 0;
 }
 

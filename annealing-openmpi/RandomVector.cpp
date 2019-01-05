@@ -4,6 +4,7 @@
 #include <iostream>
 #include <omp.h>
 #include "RandomVector.h"
+#include <mpi.h>
 
 vector<int> RandomVector::generateRandVector(vector<int> singlePermutation, int numberOfNodes) {
 
@@ -79,4 +80,7 @@ vector<int> RandomVector::generateSwap(vector<int> vec, int nr) {
 RandomVector::RandomVector() {
 
 }
+
+
+
 

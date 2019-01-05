@@ -41,12 +41,21 @@ public:
 
     double randomValueZeroToOne(const int &min, const int &max);
 
-    void annealingMethod();
+    void annealingMethod(int mynum, int nprocs);
 
     void changeTemp();
 
     void printEnd();
 
+    //MPI
+    void func(int mynum, int nprocs,int *msgSend, int size,int iter);
+    void func222(int mynum, int nprocs,int *msgSend, int size,int iter);
+
+    void printTable(int table[], int size);
+
+    int *addToTable(int table[], int size,int number);
+
+    void setBestPermutation(vector<int> &bestPermutation);
 };
 
 
