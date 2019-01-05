@@ -38,8 +38,15 @@ Algorithm::Algorithm(double temperature, int loopSteps, int numberOfNodes, doubl
 
     bestPermutation = simpleOrderedPermutation;
 
-    previousPermutation = nextPermutation();
-    previousPermutationValue = graph->countWeightOfPath(previousPermutation);
+    //TODO: uproszczenie na czas testów by zaczynało zawsze od tego samego vectora na wszystkich procesach
+//    previousPermutation = nextPermutation();
+//    previousPermutationValue = graph->countWeightOfPath(previousPermutation);
+//
+//    bestPermutation = previousPermutation;
+//    bestPermutationValue = previousPermutationValue;
+
+    previousPermutation = simpleOrderedPermutation;
+    previousPermutationValue = graph->countWeightOfPath(simpleOrderedPermutation);
 
     bestPermutation = previousPermutation;
     bestPermutationValue = previousPermutationValue;
@@ -100,6 +107,11 @@ void Algorithm::annealingMethod(int mynum, int nprocs) {
         for (int k = 0; k < this->loopSteps / nprocs; ++k) {
             //TODO: nextPermutation swapuje najlepszą permutację aktualną - trzeba zrobić przesyłanie jej między procesami
             // + sprawdzanie czy otrzmana jest lepsza czy gorsza od tej która jest aktualnie zapisana
+            cout << "ttt ";
+            for (int ttt: this->bestPermutation) {
+                cout << ttt;
+            }
+            cout << endl;
             std::vector<int> nextPer = this->nextPermutation();
             changeValuesOfPermutations(nextPer);
 //            this->bestPermutation
@@ -232,9 +244,13 @@ void Algorithm::func222(int mynum, int nprocs, int *msgSend, int size, int iter)
     for (int j = 0; j < NumIter; j++) {
 //        addToTable(msgSend, size, mynum);
 
-        std::cout << " Other instances: " << mynum << std::endl;
+//        std::cout << " Other instances: " << mynum << std::endl;
 //            info = MPI_Send(msgSend, size, MPI_INT, dest, 3, MPI_COMM_WORLD);
+        cout<<"broadcast:"<<mynum<<":"<<iter<<endl;
+        printTable(msgSend,size);
         info = MPI_Bcast(&msgSend, size, MPI_INT, mynum, MPI_COMM_WORLD);
+        cout<<"broadcast:"<<mynum<<":"<<iter<<endl;
+        printTable(msgSend,size);
 
         if (info != 0) {
             printf("instance no, %d failed to send\n", mynum);
@@ -256,13 +272,15 @@ void Algorithm::func222(int mynum, int nprocs, int *msgSend, int size, int iter)
 //            cout << msgSend[q] << " ||";
 //            int tmp =msgSend[q];
 //            values[q]=tmp;
-            values[q]=msgSend[q];
+            values[q] = msgSend[q];
         }
-        cout <<"hellooooo" << " ||";
+//        cout << "hellooooo" << " ||";
 
-        this->bestPermutation = values;
+        changeValuesOfPermutations(values);
+//        this->bestPermutation = values;
 //            int* a = &tmp[0];
-        printTable(&this->bestPermutation[0], size);
+//        printTable(&this->bestPermutation[0], size);
+        cout << mynum << ": ";
         printEnd();
 //            addToTable(msgSend, size, 10);
     }
@@ -312,6 +330,7 @@ void Algorithm::func222(int mynum, int nprocs, int *msgSend, int size, int iter)
 //        }
 //    }
 }
+
 
 
 

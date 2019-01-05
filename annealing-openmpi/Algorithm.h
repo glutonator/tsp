@@ -56,6 +56,8 @@ public:
     int *addToTable(int table[], int size,int number);
 
     void setBestPermutation(vector<int> &bestPermutation);
+
+//    bool testIfequal(int *)
 };
 
 
