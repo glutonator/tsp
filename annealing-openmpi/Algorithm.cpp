@@ -170,10 +170,10 @@ void Algorithm::func(int mynum, int nprocs, int *msgSend, int size, int iter) {
             for (i = 1; i < nprocs; i++) {
                 source = i;
 //            std::cout<<" Main instances: "+std::to_string(msgRecv[8])+" "+std::to_string(msgRecv[9])<<std::endl;
-                cout << "BmsgRecv:" << mynum << ":" << iter << ": "<<"proc: "<<i<<": ";
+                cout << "BmsgRecv:" << mynum << ":" << iter << ": " << "proc: " << i << ": ";
                 printTable(msgRecv, size);
                 info = MPI_Recv(&msgRecv, size, MPI_INT, source, 3, MPI_COMM_WORLD, &status);
-                cout << "AmsgRecv:" << mynum << ":" << iter << ": "<<"proc: "<<i<<": ";
+                cout << "AmsgRecv:" << mynum << ":" << iter << ": " << "proc: " << i << ": ";
                 printTable(msgRecv, size);
                 if (info != 0) {
                     printf("instance no, %d failed to recive\n", mynum);
@@ -202,6 +202,7 @@ void Algorithm::func(int mynum, int nprocs, int *msgSend, int size, int iter) {
             info = MPI_Bcast(sendVector222, size, MPI_INT, 0, MPI_COMM_WORLD);
             cout << "send broadcast:" << mynum << ":" << iter << endl;
             printTable(sendVector222, size);
+            cout<<"send rrroad "<<this->bestPermutationValue<<endl;
 
 
             if (info != 0) {
@@ -235,6 +236,17 @@ void Algorithm::func(int mynum, int nprocs, int *msgSend, int size, int iter) {
                 printf("instance no, %d failed to recive\n", mynum);
                 exit(0);
             }
+            //***************************
+            cout << "rrroad " << mynum << ": ";
+            printEnd();
+            vector<int> values = vector<int>(size);
+            for (int q = 0; q < size; q++) {
+                values[q] = msgRecv222[q];
+            }
+            changeValuesOfPermutations(values);
+            cout << "rrroad " << mynum << ": ";
+            printEnd();
+            //**********************
 
 
             //seting new value of bestPermutation
