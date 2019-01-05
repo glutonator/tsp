@@ -31,8 +31,8 @@ int main(int argc, char **argv) {
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &mynum);
     MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
-    std::cout << "mynum: " + std::to_string(mynum) << std::endl;
-    std::cout << "nprocs: " + std::to_string(nprocs) << std::endl;
+//    std::cout << "mynum: " + std::to_string(mynum) << std::endl;
+//    std::cout << "nprocs: " + std::to_string(nprocs) << std::endl;
 
     double time_start = MPI_Wtime();
 
