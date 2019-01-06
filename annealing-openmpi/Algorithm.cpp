@@ -99,16 +99,42 @@ double Algorithm::randomValueZeroToOne(const int &min, const int &max) {
 void Algorithm::annealingMethod(int mynum, int nprocs) {
     //zmiana temperatury startowej dla róznych procesów
 //    cout<<"init temp: "<<temperature<<endl;
-    for (int p = 0; p < mynum; p++) {
+//    for (int p = 0; p < mynum; p++) {
+//        changeTemp();
+////        cout<<p+1<<":"<<mynum<<"init zmiana temp: "<<temperature<<endl;
+//    }
+
+    //zapisywanie najmniejszej temperatiry startowej
+    double lowestTemp;
+    lowestTemp = this->temperature;
+    for (int p = nprocs - (0 + 1); p > 0; p--) {
+        lowestTemp = changeLowestTemp(lowestTemp);
+//        lowestTemp = lowestTemp - 10;
+//        changeTemp();
+        cout << p + 1 << ":" << mynum << "init zmiana lowestTemp: " << lowestTemp << endl;
+    }
+
+    //ustawienie temperatury najmniejszej dla procesu 0 - by uniknąc zakleszczenia i odebrać wszystkie wysłane wiadomości
+    cout << "init temp: " << temperature << endl;
+    for (int p = nprocs - (mynum + 1); p > 0; p--) {
         changeTemp();
-//        cout<<p+1<<":"<<mynum<<"init zmiana temp: "<<temperature<<endl;
+        cout << p + 1 << ":" << mynum << "init zmiana temp: " << temperature << endl;
     }
 
 
-    double epsilon = 0.5;
+    double epsilon = 131;
     //wykonuje się aż temp nie spadnie poniżej epsilon
     int i = 0;
     while (this->temperature > epsilon) {
+        //sprawdzenie czy następna zmiana temeperatury spowoduje zakończenie algorytmu
+        if (lowestTemp <= epsilon) {
+            cout << mynum << " mynum " << "BREAK" << endl;
+            break;
+        }
+//        if (!testIfNextTempIsBiggerThenEpsion(epsilon, nprocs)) {
+//            cout << mynum << " mynum " << "BREAK" << endl;
+//            break;
+//        }
 //    for (int i = 0; i < 10; i++) {
         //k - liczba kroków podczas szukania minimum
         // wokół jednego rozwiązania
@@ -132,28 +158,55 @@ void Algorithm::annealingMethod(int mynum, int nprocs) {
 //            this->printTable(sendVector,tmpvector.size());
         this->func(mynum, nprocs, sendVector, tmpvector.size(), i);
         i++;
-//            this->func222(mynum, nprocs, sendVector, tmpvector.size(), i);
 
         //TODO: petla zminiająca temaeraturę w zalęzności od liczby wątków
-//        cout<<"temp: "<<temperature<<endl;
+        cout << "temp: " << temperature << endl;
         for (int p = 0; p < nprocs; p++) {
+            lowestTemp = changeLowestTemp(lowestTemp);
             changeTemp();
-//            cout<<"zmiana temp: "<<temperature<<endl;
+            cout << mynum << ":zmiana temp: " << temperature << endl;
+            cout << mynum << ":zmiana lowestTemp: " << lowestTemp << endl;
         }
+//                    changeTemp();
+
     }
     printEnd();
     //czekanie aż wsyzstkie prcesy skończą się - wyświetlanie wyniku dla procesu głownego
-    MPI_Barrier(MPI_COMM_WORLD);
-    if (mynum == 0) {
-        cout << "Jestem procesem 0..wynik to: ";
-        printEnd();
+//    MPI_Barrier(MPI_COMM_WORLD);
+//    if (mynum == 0) {
+//        cout << "Jestem procesem 0..wynik to: ";
+//        printEnd();
+//    }
+}
+
+bool Algorithm::testIfNextTempIsBiggerThenEpsion(int epsilon, int nprocs) {
+//    this->temperature > epsilon
+    double temp = this->temperature;
+    double alpha = this->alpha;
+    for (int p = 0; p < nprocs; p++) {
+        temp = temp - 10;
+//        temp *= (1 - alpha);
     }
+    if (temp > epsilon) {
+        return true;
+    }
+    return false;
+}
+
+double Algorithm::changeLowestTemp(double lowestTemp) {
+    lowestTemp = lowestTemp - 10;
+    return lowestTemp;
 }
 
 void Algorithm::changeTemp() {
+    //TODO: przywrocic stary stan
+//    double temp = this->temperature;
+//    double alpha = this->alpha;
+//    temp *= (1 - alpha);
+//    this->temperature = temp;
+
     double temp = this->temperature;
-    double alpha = this->alpha;
-    temp *= (1 - alpha);
+    temp = temp - 10;
     this->temperature = temp;
 }
 
@@ -418,6 +471,8 @@ void Algorithm::func222(int mynum, int nprocs, int *msgSend, int size, int iter)
 //        }
 //    }
 }
+
+
 
 
 

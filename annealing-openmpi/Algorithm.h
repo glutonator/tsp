@@ -43,6 +43,10 @@ public:
 
     void annealingMethod(int mynum, int nprocs);
 
+    bool testIfNextTempIsBiggerThenEpsion(int epsilon,int nprocs);
+
+    double changeLowestTemp(double lowestTemp);
+
     void changeTemp();
 
     void printEnd();
