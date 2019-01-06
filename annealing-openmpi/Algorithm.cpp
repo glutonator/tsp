@@ -111,14 +111,14 @@ void Algorithm::annealingMethod(int mynum, int nprocs) {
         lowestTemp = changeLowestTemp(lowestTemp);
 //        lowestTemp = lowestTemp - 10;
 //        changeTemp();
-        cout << p + 1 << ":" << mynum << "init zmiana lowestTemp: " << lowestTemp << endl;
+//        cout << p + 1 << ":" << mynum << "init zmiana lowestTemp: " << lowestTemp << endl;
     }
 
     //ustawienie temperatury najmniejszej dla procesu 0 - by uniknąc zakleszczenia i odebrać wszystkie wysłane wiadomości
-    cout << "init temp: " << temperature << endl;
+//    cout << "init temp: " << temperature << endl;
     for (int p = nprocs - (mynum + 1); p > 0; p--) {
         changeTemp();
-        cout << p + 1 << ":" << mynum << "init zmiana temp: " << temperature << endl;
+//        cout << p + 1 << ":" << mynum << "init zmiana temp: " << temperature << endl;
     }
 
 
@@ -128,7 +128,7 @@ void Algorithm::annealingMethod(int mynum, int nprocs) {
     while (this->temperature > epsilon) {
         //sprawdzenie czy następna zmiana temeperatury spowoduje zakończenie algorytmu
         if (lowestTemp <= epsilon) {
-            cout << mynum << " mynum " << "BREAK" << endl;
+//            cout << mynum << " mynum " << "BREAK" << endl;
             break;
         }
 //        if (!testIfNextTempIsBiggerThenEpsion(epsilon, nprocs)) {
@@ -146,11 +146,11 @@ void Algorithm::annealingMethod(int mynum, int nprocs) {
 
             std::vector<int> nextPer = this->nextPermutation();
             changeValuesOfPermutations(nextPer);
-            cout << "iter: " << k << " bestPermutation ";
+//            cout << "iter: " << k << " bestPermutation ";
             for (int ttt: this->bestPermutation) {
-                cout << ttt;
+//                cout << ttt;
             }
-            cout << endl;
+//            cout << endl;
         }
         vector<int> tmpvector = bestPermutation;
         int *sendVector = &tmpvector[0];
@@ -160,21 +160,21 @@ void Algorithm::annealingMethod(int mynum, int nprocs) {
         i++;
 
         //TODO: petla zminiająca temaeraturę w zalęzności od liczby wątków
-        cout << "temp: " << temperature << endl;
+//        cout << "temp: " << temperature << endl;
         for (int p = 0; p < nprocs; p++) {
             lowestTemp = changeLowestTemp(lowestTemp);
             changeTemp();
-            cout << mynum << ":zmiana temp: " << temperature << endl;
-            cout << mynum << ":zmiana lowestTemp: " << lowestTemp << endl;
+//            cout << mynum << ":zmiana temp: " << temperature << endl;
+//            cout << mynum << ":zmiana lowestTemp: " << lowestTemp << endl;
         }
 //                    changeTemp();
 
     }
-    printEnd();
+//    printEnd();
     //czekanie aż wsyzstkie prcesy skończą się - wyświetlanie wyniku dla procesu głownego
     MPI_Barrier(MPI_COMM_WORLD);
     if (mynum == 0) {
-        cout << "Jestem procesem 0..wynik to: ";
+//        cout << "Jestem procesem 0..wynik to: ";
         printEnd();
     }
 }
@@ -246,11 +246,11 @@ void Algorithm::func(int mynum, int nprocs, int *msgSend, int size, int iter) {
             for (i = 1; i < nprocs; i++) {
                 source = i;
 //            std::cout<<" Main instances: "+std::to_string(msgRecv[8])+" "+std::to_string(msgRecv[9])<<std::endl;
-                cout << "BmsgRecv:" << mynum << ":" << iter << ": " << "proc: " << i << ": ";
-                printTable(msgRecv, size);
+//                cout << "BmsgRecv:" << mynum << ":" << iter << ": " << "proc: " << i << ": ";
+//                printTable(msgRecv, size);
                 info = MPI_Recv(&msgRecv, size, MPI_INT, source, 3, MPI_COMM_WORLD, &status);
-                cout << "AmsgRecv:" << mynum << ":" << iter << ": " << "proc: " << i << ": ";
-                printTable(msgRecv, size);
+//                cout << "AmsgRecv:" << mynum << ":" << iter << ": " << "proc: " << i << ": ";
+//                printTable(msgRecv, size);
                 if (info != 0) {
                     printf("instance no, %d failed to recive\n", mynum);
                     exit(0);
@@ -265,7 +265,7 @@ void Algorithm::func(int mynum, int nprocs, int *msgSend, int size, int iter) {
                     values[q] = msgRecv[q];
                 }
                 changeValuesOfPermutations(values);
-                cout << mynum << ": ";
+//                cout << mynum << ": ";
 //                printEnd();
                 //**********************
             }
@@ -273,12 +273,12 @@ void Algorithm::func(int mynum, int nprocs, int *msgSend, int size, int iter) {
             vector<int> tmpvector222 = this->bestPermutation;
             int *sendVector222 = &tmpvector222[0];
 //            info = MPI_Send(sendVector222, size, MPI_INT, dest, 4, MPI_COMM_WORLD);
-            cout << "send broadcast:" << mynum << ":" << iter << endl;
-            printTable(sendVector222, size);
+//            cout << "send broadcast:" << mynum << ":" << iter << endl;
+//            printTable(sendVector222, size);
             info = MPI_Bcast(sendVector222, size, MPI_INT, 0, MPI_COMM_WORLD);
-            cout << "send broadcast:" << mynum << ":" << iter << endl;
-            printTable(sendVector222, size);
-            cout << "send rrroad " << this->bestPermutationValue << endl;
+//            cout << "send broadcast:" << mynum << ":" << iter << endl;
+//            printTable(sendVector222, size);
+//            cout << "send rrroad " << this->bestPermutationValue << endl;
 
 
             if (info != 0) {
@@ -296,32 +296,32 @@ void Algorithm::func(int mynum, int nprocs, int *msgSend, int size, int iter) {
                 printf("instance no, %d failed to send\n", mynum);
                 exit(0);
             }
-            std::cout << "iter: " + std::to_string(iter);
-            std::cout << " Other instances: " << mynum << "::: ";
-            printTable(msgSend, size);
+//            std::cout << "iter: " + std::to_string(iter);
+//            std::cout << " Other instances: " << mynum << "::: ";
+//            printTable(msgSend, size);
 
 
             //odebranie bestPermutation dla wszsytkich pozsotałych wątków
-            cout << "broadcast:" << mynum << ":" << iter << endl;
-            printTable(msgRecv222, size);
+//            cout << "broadcast:" << mynum << ":" << iter << endl;
+//            printTable(msgRecv222, size);
             info = MPI_Bcast(&msgRecv222, size, MPI_INT, 0, MPI_COMM_WORLD);
-            cout << "broadcast:" << mynum << ":" << iter << endl;
+//            cout << "broadcast:" << mynum << ":" << iter << endl;
 //            info = MPI_Recv(&msgRecv222, size, MPI_INT, source, 3, MPI_COMM_WORLD, &status);
-            printTable(msgRecv222, size);
+//            printTable(msgRecv222, size);
             if (info != 0) {
                 printf("instance no, %d failed to recive\n", mynum);
                 exit(0);
             }
             //***************************
-            cout << "rrroad " << mynum << ": ";
-            printEnd();
+//            cout << "rrroad " << mynum << ": ";
+//            printEnd();
             vector<int> values = vector<int>(size);
             for (int q = 0; q < size; q++) {
                 values[q] = msgRecv222[q];
             }
             changeValuesOfPermutations(values);
-            cout << "rrroad " << mynum << ": ";
-            printEnd();
+//            cout << "rrroad " << mynum << ": ";
+//            printEnd();
             //**********************
 
 
