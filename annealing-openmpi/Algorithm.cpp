@@ -97,10 +97,19 @@ double Algorithm::randomValueZeroToOne(const int &min, const int &max) {
 }
 
 void Algorithm::annealingMethod(int mynum, int nprocs) {
+    //zmiana temperatury startowej dla róznych procesów
+//    cout<<"init temp: "<<temperature<<endl;
+    for (int p = 0; p < mynum; p++) {
+        changeTemp();
+//        cout<<p+1<<":"<<mynum<<"init zmiana temp: "<<temperature<<endl;
+    }
+
+
     double epsilon = 0.5;
     //wykonuje się aż temp nie spadnie poniżej epsilon
-//    while (this->temperature > epsilon) {
-    for (int i = 0; i < 1; i++) {
+    int i = 0;
+    while (this->temperature > epsilon) {
+//    for (int i = 0; i < 10; i++) {
         //k - liczba kroków podczas szukania minimum
         // wokół jednego rozwiązania
         //TODO: zminić k na k/liczba procesów uruchomionych
@@ -108,25 +117,37 @@ void Algorithm::annealingMethod(int mynum, int nprocs) {
         for (int k = 0; k < this->loopSteps; ++k) {
             //TODO: nextPermutation swapuje najlepszą permutację aktualną - trzeba zrobić przesyłanie jej między procesami
             // + sprawdzanie czy otrzmana jest lepsza czy gorsza od tej która jest aktualnie zapisana
+
+            std::vector<int> nextPer = this->nextPermutation();
+            changeValuesOfPermutations(nextPer);
             cout << "iter: " << k << " bestPermutation ";
             for (int ttt: this->bestPermutation) {
                 cout << ttt;
             }
             cout << endl;
-            std::vector<int> nextPer = this->nextPermutation();
-            changeValuesOfPermutations(nextPer);
-//            this->bestPermutation
-//            RandomVector *randomVector = new RandomVector();
-            vector<int> tmpvector = bestPermutation;
-            int *sendVector = &tmpvector[0];
+        }
+        vector<int> tmpvector = bestPermutation;
+        int *sendVector = &tmpvector[0];
 //            cout<<"sendVector";
 //            this->printTable(sendVector,tmpvector.size());
-            this->func(mynum, nprocs, sendVector, tmpvector.size(), k);
+        this->func(mynum, nprocs, sendVector, tmpvector.size(), i);
+        i++;
 //            this->func222(mynum, nprocs, sendVector, tmpvector.size(), i);
+
+        //TODO: petla zminiająca temaeraturę w zalęzności od liczby wątków
+//        cout<<"temp: "<<temperature<<endl;
+        for (int p = 0; p < nprocs; p++) {
+            changeTemp();
+//            cout<<"zmiana temp: "<<temperature<<endl;
         }
-        changeTemp();
     }
     printEnd();
+    //czekanie aż wsyzstkie prcesy skończą się - wyświetlanie wyniku dla procesu głownego
+    MPI_Barrier(MPI_COMM_WORLD);
+    if (mynum == 0) {
+        cout << "Jestem procesem 0..wynik to: ";
+        printEnd();
+    }
 }
 
 void Algorithm::changeTemp() {
@@ -148,7 +169,7 @@ void Algorithm::printEnd() {
 
 
 void Algorithm::func(int mynum, int nprocs, int *msgSend, int size, int iter) {
-//    cout<<size;
+
     int i, info, source, dest = 0;
     int NumIter = 1;
 
@@ -202,7 +223,7 @@ void Algorithm::func(int mynum, int nprocs, int *msgSend, int size, int iter) {
             info = MPI_Bcast(sendVector222, size, MPI_INT, 0, MPI_COMM_WORLD);
             cout << "send broadcast:" << mynum << ":" << iter << endl;
             printTable(sendVector222, size);
-            cout<<"send rrroad "<<this->bestPermutationValue<<endl;
+            cout << "send rrroad " << this->bestPermutationValue << endl;
 
 
             if (info != 0) {
