@@ -122,7 +122,7 @@ void Algorithm::annealingMethod(int mynum, int nprocs) {
     }
 
 
-    double epsilon = 131;
+    double epsilon = 0.5;
     //wykonuje się aż temp nie spadnie poniżej epsilon
     int i = 0;
     while (this->temperature > epsilon) {
@@ -172,11 +172,11 @@ void Algorithm::annealingMethod(int mynum, int nprocs) {
     }
     printEnd();
     //czekanie aż wsyzstkie prcesy skończą się - wyświetlanie wyniku dla procesu głownego
-//    MPI_Barrier(MPI_COMM_WORLD);
-//    if (mynum == 0) {
-//        cout << "Jestem procesem 0..wynik to: ";
-//        printEnd();
-//    }
+    MPI_Barrier(MPI_COMM_WORLD);
+    if (mynum == 0) {
+        cout << "Jestem procesem 0..wynik to: ";
+        printEnd();
+    }
 }
 
 bool Algorithm::testIfNextTempIsBiggerThenEpsion(int epsilon, int nprocs) {
@@ -194,20 +194,22 @@ bool Algorithm::testIfNextTempIsBiggerThenEpsion(int epsilon, int nprocs) {
 }
 
 double Algorithm::changeLowestTemp(double lowestTemp) {
-    lowestTemp = lowestTemp - 10;
+    double alpha = this->alpha;
+    lowestTemp *= (1 - alpha);
+//    lowestTemp = lowestTemp - 10;
     return lowestTemp;
 }
 
 void Algorithm::changeTemp() {
     //TODO: przywrocic stary stan
-//    double temp = this->temperature;
-//    double alpha = this->alpha;
-//    temp *= (1 - alpha);
-//    this->temperature = temp;
-
     double temp = this->temperature;
-    temp = temp - 10;
+    double alpha = this->alpha;
+    temp *= (1 - alpha);
     this->temperature = temp;
+
+//    double temp = this->temperature;
+//    temp = temp - 10;
+//    this->temperature = temp;
 }
 
 void Algorithm::printEnd() {

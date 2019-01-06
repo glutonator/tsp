@@ -44,15 +44,15 @@ int main(int argc, char **argv) {
 
     Algorithm algorithm = Algorithm(temperature, loopSteps, numberOfNodes, alpha, parallel);
 
-//    double t1=MPI_Wtime();
+    double t1=MPI_Wtime();
     algorithm.annealingMethod(mynum,nprocs);
-//    double t2=MPI_Wtime();
+    double t2=MPI_Wtime();
 
-//    MPI_Barrier(MPI_COMM_WORLD);
-//    if (mynum == 0) {
-//        cout << "Jestem procesem 0...";
-//        cout<<"Czas obliczeń: "<<t2-t1<<" sekund\n";
-//    }
+    MPI_Barrier(MPI_COMM_WORLD);
+    if (mynum == 0) {
+        cout << "Jestem procesem 0...";
+        cout<<"Czas obliczeń: "<<t2-t1<<" sekund\n";
+    }
 
 //    std::cout << "Hello World, my rank is " << mynum << " " << MPI_Wtime() - time_start << std::endl;
 
