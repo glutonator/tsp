@@ -39,17 +39,17 @@ Algorithm::Algorithm(double temperature, int loopSteps, int numberOfNodes, doubl
     bestPermutation = simpleOrderedPermutation;
 
     //TODO: uproszczenie na czas testów by zaczynało zawsze od tego samego vectora na wszystkich procesach
-//    previousPermutation = nextPermutation();
-//    previousPermutationValue = graph->countWeightOfPath(previousPermutation);
-//
-//    bestPermutation = previousPermutation;
-//    bestPermutationValue = previousPermutationValue;
-
-    previousPermutation = simpleOrderedPermutation;
-    previousPermutationValue = graph->countWeightOfPath(simpleOrderedPermutation);
+    previousPermutation = nextPermutation();
+    previousPermutationValue = graph->countWeightOfPath(previousPermutation);
 
     bestPermutation = previousPermutation;
     bestPermutationValue = previousPermutationValue;
+
+//    previousPermutation = simpleOrderedPermutation;
+//    previousPermutationValue = graph->countWeightOfPath(simpleOrderedPermutation);
+//
+//    bestPermutation = previousPermutation;
+//    bestPermutationValue = previousPermutationValue;
 }
 
 vector<int> Algorithm::nextPermutation() {
@@ -139,8 +139,8 @@ void Algorithm::annealingMethod(int mynum, int nprocs) {
         //k - liczba kroków podczas szukania minimum
         // wokół jednego rozwiązania
         //TODO: zminić k na k/liczba procesów uruchomionych
-        for (int k = 0; k < this->loopSteps / nprocs; ++k) {
-//        for (int k = 0; k < this->loopSteps; ++k) {
+//        for (int k = 0; k < this->loopSteps / nprocs; ++k) {
+        for (int k = 0; k < this->loopSteps; ++k) {
             //TODO: nextPermutation swapuje najlepszą permutację aktualną - trzeba zrobić przesyłanie jej między procesami
             // + sprawdzanie czy otrzmana jest lepsza czy gorsza od tej która jest aktualnie zapisana
 
