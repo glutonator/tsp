@@ -139,8 +139,8 @@ void Algorithm::annealingMethod(int mynum, int nprocs) {
         //k - liczba kroków podczas szukania minimum
         // wokół jednego rozwiązania
         //TODO: zminić k na k/liczba procesów uruchomionych
-//        for (int k = 0; k < this->loopSteps / nprocs; ++k) {
-        for (int k = 0; k < this->loopSteps; ++k) {
+        for (int k = 0; k < this->loopSteps / nprocs; ++k) {
+//        for (int k = 0; k < this->loopSteps; ++k) {
             //TODO: nextPermutation swapuje najlepszą permutację aktualną - trzeba zrobić przesyłanie jej między procesami
             // + sprawdzanie czy otrzmana jest lepsza czy gorsza od tej która jest aktualnie zapisana
 
