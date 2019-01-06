@@ -52,16 +52,10 @@ public:
     void printEnd();
 
     //MPI
-    void func(int mynum, int nprocs,int *msgSend, int size,int iter);
-    void func222(int mynum, int nprocs,int *msgSend, int size,int iter);
+    void processSynchronization(int mynum, int nprocs, int *msgSend, int size, int iter);
 
     void printTable(int table[], int size);
 
-    int *addToTable(int table[], int size,int number);
-
-    void setBestPermutation(vector<int> &bestPermutation);
-
-//    bool testIfequal(int *)
 };
 
 

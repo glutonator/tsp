@@ -118,23 +118,21 @@ void Algorithm::annealingMethod(int mynum, int nprocs) {
         for (int k = 0; k < this->loopSteps; ++k) {
             std::vector<int> nextPer = this->nextPermutation();
             changeValuesOfPermutations(nextPer);
-            for (int ttt: this->bestPermutation) {
-            }
         }
 
         //konwertowanie kopii vectora bestPermutation do obiektu nadającego się do przesłania
         vector<int> tmpvector = bestPermutation;
         int *sendVector = &tmpvector[0];
-        this->func(mynum, nprocs, sendVector, tmpvector.size(), i);
+        this->processSynchronization(mynum, nprocs, sendVector, tmpvector.size(), i);
         i++;
 
-        // petla zminiająca temperaturę w zalęzności od liczby wątków
+        // petla zminiająca temperaturę w zalężności od liczby procesów
         for (int p = 0; p < nprocs; p++) {
             lowestTemp = changeLowestTemp(lowestTemp);
             changeTemp();
         }
     }
-    //czekanie aż wsyzstkie prcesy skończą się - wyświetlanie wyniku dla procesu głownego
+    //czekanie aż wsyzstkie procesy skończą się - wyświetlanie wyniku dla procesu głownego
     MPI_Barrier(MPI_COMM_WORLD);
     if (mynum == 0) {
 //        cout << "Jestem procesem 0..wynik to: ";
@@ -150,7 +148,6 @@ double Algorithm::changeLowestTemp(double lowestTemp) {
 }
 
 void Algorithm::changeTemp() {
-    //TODO: przywrocic stary stan
     double temp = this->temperature;
     double alpha = this->alpha;
     temp *= (1 - alpha);
@@ -163,71 +160,63 @@ void Algorithm::printEnd() {
 }
 
 
-void Algorithm::func(int mynum, int nprocs, int *msgSend, int size, int iter) {
-
+void Algorithm::processSynchronization(int mynum, int nprocs, int *msgSend, int size, int iter) {
     int i, info, source, dest = 0;
-    int NumIter = 1;
-
     int msgRecv[size];
     int msgRecv222[size];
-
     MPI_Status status;
-
-    for (int j = 0; j < NumIter; j++) {
-        if (mynum == 0) {
-            //odbieranie wiadomości z bestPermutation z pozostałych procesów
-            for (i = 1; i < nprocs; i++) {
-                source = i;
-                info = MPI_Recv(&msgRecv, size, MPI_INT, source, 3, MPI_COMM_WORLD, &status);
-                if (info != 0) {
-                    printf("instance no, %d failed to recive\n", mynum);
-                    exit(0);
-                }
-
-                //wybranie najlepszej permutacji
-                //***************************
-                vector<int> values = vector<int>(size);
-                for (int q = 0; q < size; q++) {
-                    values[q] = msgRecv[q];
-                }
-                changeValuesOfPermutations(values);
-                //**********************
-            }
-
-            //przesłanie wybranej najlepszej bestPermutation z otrzymanych procesów do wszsytkich innych niż proces-0 procesów
-            vector<int> tmpvector222 = this->bestPermutation;
-            int *sendVector222 = &tmpvector222[0];
-            info = MPI_Bcast(sendVector222, size, MPI_INT, 0, MPI_COMM_WORLD);
-            if (info != 0) {
-                printf("instance no, %d failed to send\n", mynum);
-                exit(0);
-            }
-
-        } else {
-            //wysyłąnie wiadomości z bestPermutation do procesu-0
-            info = MPI_Send(msgSend, size, MPI_INT, dest, 3, MPI_COMM_WORLD);
-            if (info != 0) {
-                printf("instance no, %d failed to send\n", mynum);
-                exit(0);
-            }
-
-            //odebranie bestPermutation przez wszsytkie procesy poza procesem-0
-            info = MPI_Bcast(&msgRecv222, size, MPI_INT, 0, MPI_COMM_WORLD);
+    if (mynum == 0) {
+        //odbieranie wiadomości z bestPermutation z pozostałych procesów
+        for (i = 1; i < nprocs; i++) {
+            source = i;
+            info = MPI_Recv(&msgRecv, size, MPI_INT, source, 3, MPI_COMM_WORLD, &status);
             if (info != 0) {
                 printf("instance no, %d failed to recive\n", mynum);
                 exit(0);
             }
 
-            //zapisanie najlepszej permutacji
+            //wybranie najlepszej permutacji
             //***************************
             vector<int> values = vector<int>(size);
             for (int q = 0; q < size; q++) {
-                values[q] = msgRecv222[q];
+                values[q] = msgRecv[q];
             }
             changeValuesOfPermutations(values);
             //**********************
-
         }
+
+        //przesłanie wybranej najlepszej bestPermutation z otrzymanych procesów do wszsytkich innych niż proces-0 procesów
+        vector<int> tmpvector222 = this->bestPermutation;
+        int *sendVector222 = &tmpvector222[0];
+        info = MPI_Bcast(sendVector222, size, MPI_INT, 0, MPI_COMM_WORLD);
+        if (info != 0) {
+            printf("instance no, %d failed to send\n", mynum);
+            exit(0);
+        }
+    } else {
+        //wysyłąnie wiadomości z bestPermutation do procesu-0
+        info = MPI_Send(msgSend, size, MPI_INT, dest, 3, MPI_COMM_WORLD);
+        if (info != 0) {
+            printf("instance no, %d failed to send\n", mynum);
+            exit(0);
+        }
+
+        //odebranie bestPermutation przez wszsytkie procesy poza procesem-0
+        info = MPI_Bcast(&msgRecv222, size, MPI_INT, 0, MPI_COMM_WORLD);
+        if (info != 0) {
+            printf("instance no, %d failed to recive\n", mynum);
+            exit(0);
+        }
+
+        //zapisanie najlepszej permutacji
+        //***************************
+        vector<int> values = vector<int>(size);
+        for (int q = 0; q < size; q++) {
+            values[q] = msgRecv222[q];
+        }
+        changeValuesOfPermutations(values);
+        //**********************
+
     }
 }
 
