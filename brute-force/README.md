@@ -1,9 +1,9 @@
 # Problem komiwojażera
-Wersja przeszukiwania zupełnego (brut-force)  
+Wersja przeszukiwania zupełnego (brute-force)  
 
 Uruchomienie:  
-(1) > cmake .
-(2) > make
+(1) > cmake .\
+(2) > make\
 (3) > ./salesman [N]
 
 N - Wielkość grafu
