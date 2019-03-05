@@ -30,7 +30,6 @@ int main(int argc, char **argv) {
     algorithm.annealingMethod();
 
     double finish = omp_get_wtime();
-//    std::cout << "Elapsed time: " << finish-start << " s\n";
     std::cout << finish-start << endl;
 
     return 0;
@@ -50,7 +49,6 @@ void measureParallelShuffleTime(int numberOfNodes) {
     // Record end time
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
-//    std::cout << "Elapsed parallel shuffle time: " << elapsed.count() << " s\n";
 
 }
 

@@ -12,11 +12,8 @@ Algorithm::Algorithm(double temperature, int loopSteps, int numberOfNodes, doubl
 
     Graph *graph = new Graph(numberOfNodes);
     graph->createComleteGraph();
-//    graph->printGraph();
 
-    //to jest ważne!!!!
     this->graph = graph;
-
 
     //temperature = T
     this->temperature = temperature;
@@ -116,11 +113,6 @@ void Algorithm::changeTemp() {
 }
 
 void Algorithm::printEnd() {
-//    for (auto it = bestPermutation.begin(); it != bestPermutation.end(); ++it) {
-//        cout << *it << " ";
-//    }
-//    cout << endl;
-//    cout << "bestPermutationValue  " << bestPermutationValue << endl;
     cout << bestPermutationValue << "\t";
 }
 

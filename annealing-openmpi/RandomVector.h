@@ -21,9 +21,6 @@ public:
 
     vector<int> generateSwap(vector<int> singlePerm, int nr);
 
-
-
-
     };
 
 

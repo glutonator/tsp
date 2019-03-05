@@ -42,9 +42,6 @@ int main(int argc, char **argv) {
 
     MPI_Barrier(MPI_COMM_WORLD);
     if (mynum == 0) {
-//        cout << "Jestem procesem 0...";
-//        cout<<"Czas obliczeń: "<<finish-start <<" sekund\n";
-//        std::cout << "Elapsed time: " << finish-start << " s\n";
         std::cout << finish-start << endl;
     }
 
@@ -68,8 +65,6 @@ void measureParallelShuffleTime(int numberOfNodes) {
     // Record end time
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
-//    std::cout << "Elapsed parallel shuffle time: " << elapsed.count() << " s\n";
-
 }
 
 void measureShuffleTime(int numberOfNodes) {

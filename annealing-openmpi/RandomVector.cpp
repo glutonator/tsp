@@ -28,9 +28,6 @@ vector<int> RandomVector::generateRandVector(vector<int> singlePermutation, int 
             first[r] = temp;
         }
     }
-
-
-//    return singlePermutation;
 }
 
 vector<int> RandomVector::generateShuffle(vector<int> singlePerm, int nr) {

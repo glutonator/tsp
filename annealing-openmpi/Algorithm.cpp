@@ -12,11 +12,8 @@ Algorithm::Algorithm(double temperature, int loopSteps, int numberOfNodes, doubl
 
     Graph *graph = new Graph(numberOfNodes);
     graph->createComleteGraph();
-//    graph->printGraph();
 
-    //to jest ważne!!!!
     this->graph = graph;
-
 
     //temperature = T
     this->temperature = temperature;

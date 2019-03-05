@@ -35,20 +35,14 @@ vector<int> RandomVector::generateRandVector(vector<int> singlePermutation, int 
         if (i != r) {
             omp_set_lock(&lock[i]);
             omp_set_lock(&lock[r]);
-//            cout << "first " << first[i] << " second " << first[r] << endl;
             temp = first[i];
             first[i] = first[r];
             omp_unset_lock(&lock[i]);
             first[r] = temp;
             omp_unset_lock(&lock[r]);
 
-//            swap(first[i], first[d(rng)]);
         }
-//        cout << omp_get_num_threads() << " ";
     }
-
-
-//    return singlePermutation;
 }
 
 vector<int> RandomVector::generateShuffle(vector<int> singlePerm, int nr) {
