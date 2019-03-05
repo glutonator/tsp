@@ -19,9 +19,8 @@ int main(int argc, char **argv) {
     double temperature = atof(argv[2]);
     int loopSteps = atoi(argv[3]);
     double alpha = atof(argv[4]);
-    int parallel = atoi(argv[5]);
 
-    Algorithm algorithm = Algorithm(temperature, loopSteps, numberOfNodes, alpha, parallel);
+    Algorithm algorithm = Algorithm(temperature, loopSteps, numberOfNodes, alpha);
 
     // Record start time
     double start = omp_get_wtime();
