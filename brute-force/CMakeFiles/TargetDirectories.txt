@@ -1,3 +1,0 @@
-/home/asica/repo/studia/porr/tsp/brute-force/CMakeFiles/rebuild_cache.dir
-/home/asica/repo/studia/porr/tsp/brute-force/CMakeFiles/salesman.dir
-/home/asica/repo/studia/porr/tsp/brute-force/CMakeFiles/edit_cache.dir

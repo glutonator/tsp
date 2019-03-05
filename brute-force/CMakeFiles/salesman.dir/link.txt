@@ -1,1 +1,0 @@
-/usr/bin/c++   -fopenmp -g    CMakeFiles/salesman.dir/main.cpp.o CMakeFiles/salesman.dir/graph.cpp.o  -o salesman 
