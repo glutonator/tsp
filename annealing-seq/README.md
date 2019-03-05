@@ -12,4 +12,4 @@ L - Liczba kroków w wenętrznej pętli
 alfa - Szybkość zbiegania temeraturu z zakresu (0,1)
 
 Przykładowa komenda:
-./salesman_seq 5 100 10 0.89
+./salesman_seq 100 1000 100 0.1

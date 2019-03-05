@@ -30,10 +30,8 @@ private:
 
     Graph *graph;
 
-    int parallel;
-
 public:
-    Algorithm(double temperature, int loopSteps, int numberOfNodes, double alpha, int parallel);
+    Algorithm(double temperature, int loopSteps, int numberOfNodes, double alpha);
 
     vector<int> nextPermutation();
 

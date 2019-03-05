@@ -8,7 +8,7 @@
 #include <mpi.h>
 
 
-Algorithm::Algorithm(double temperature, int loopSteps, int numberOfNodes, double alpha, int parallel) {
+Algorithm::Algorithm(double temperature, int loopSteps, int numberOfNodes, double alpha) {
 
     Graph *graph = new Graph(numberOfNodes);
     graph->createComleteGraph();
@@ -21,8 +21,6 @@ Algorithm::Algorithm(double temperature, int loopSteps, int numberOfNodes, doubl
     this->loopSteps = loopSteps;
 
     this->numberOfNodes = numberOfNodes;
-
-    this->parallel = parallel;
 
     this->alpha = alpha;
 
